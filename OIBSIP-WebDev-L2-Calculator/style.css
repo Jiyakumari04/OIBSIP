@@ -1,0 +1,248 @@
+:root {
+  --forest: #2f3e34;
+  --forest-dark: #24312a;
+  --cream: #f4efe1;
+  --cream-dim: #e7dfc9;
+  --ink: #2b2621;
+  --brass: #b08d57;
+  --red: #b23a2e;
+  --red-dark: #8f2c22;
+  --paper: #fbf8f0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1b241e;
+  background-image: radial-gradient(circle at 50% 0%, #26362b 0%, #161d18 70%);
+  font-family: "Work Sans", sans-serif;
+  padding: 24px;
+}
+
+/* Fixed-width card. This will NEVER stretch to fill the screen. */
+.machine {
+  width: 320px;
+  flex-shrink: 0;
+  background: var(--forest);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.machine-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 2px 4px 16px;
+}
+
+.brand {
+  font-family: "Special Elite", cursive;
+  color: var(--brass);
+  font-size: 18px;
+  letter-spacing: 0.03em;
+}
+
+.model {
+  font-size: 11px;
+  color: rgba(244, 239, 225, 0.5);
+}
+
+/* ---------- Paper tape ---------- */
+.tape-window {
+  background: var(--forest-dark);
+  border-radius: 8px;
+  padding: 10px 4px;
+  margin-bottom: 12px;
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.tape {
+  height: 70px;
+  overflow-y: auto;
+  padding: 4px 14px;
+  background: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--paper) 0px,
+    var(--paper) 21px,
+    #f0ead9 22px
+  );
+  border-radius: 3px;
+}
+
+.tape-line {
+  font-family: "Special Elite", cursive;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.tape-line.tape-empty {
+  color: #b4a98f;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.tape-line .tape-result {
+  color: var(--red-dark);
+  font-weight: 700;
+}
+
+/* ---------- Display ---------- */
+.display-panel {
+  background: #10160f;
+  border-radius: 8px;
+  padding: 14px 16px 12px;
+  margin-bottom: 16px;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6);
+  text-align: right;
+  overflow: hidden;
+}
+
+.display-secondary {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  color: rgba(180, 219, 190, 0.55);
+  min-height: 16px;
+}
+
+.display-main {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 34px;
+  font-weight: 500;
+  color: #c9f2ce;
+  overflow-x: auto;
+  white-space: nowrap;
+  text-shadow: 0 0 12px rgba(160, 230, 170, 0.25);
+}
+
+.display-main.is-error {
+  color: #f0a093;
+  font-size: 20px;
+}
+
+/* ---------- Keypad ---------- */
+/* Every column and row is a FIXED 68px — this is what keeps every button
+   exactly the same size no matter what content is inside it. */
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 68px);
+  grid-auto-rows: 68px;
+  gap: 10px;
+  justify-content: center;
+}
+
+.key {
+  width: 68px;
+  height: 68px;
+  border: none;
+  border-radius: 50%;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    transform 0.08s ease,
+    filter 0.15s ease;
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.28),
+    0 5px 8px rgba(0, 0, 0, 0.25);
+}
+
+.key:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.28),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.key-num {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.key-num:hover {
+  background: #ffffff;
+}
+
+.key-func {
+  background: var(--cream-dim);
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.key-func:hover {
+  filter: brightness(1.05);
+}
+
+.key-op {
+  background: var(--red);
+  color: var(--cream);
+}
+
+.key-op:hover {
+  background: var(--red-dark);
+}
+
+/* Zero spans two grid columns: 68px + gap(10px) + 68px = 146px wide,
+   height stays the same 68px as every other key. */
+.key-zero {
+  width: 146px;
+  grid-column: span 2;
+  border-radius: 34px;
+}
+
+.key-equals {
+  background: var(--brass);
+  color: var(--ink);
+  font-size: 24px;
+}
+
+.key-equals:hover {
+  filter: brightness(1.08);
+}
+
+.key:focus-visible {
+  outline: 3px solid #c9f2ce;
+  outline-offset: 2px;
+}
+
+/* Shrink everything proportionally on very narrow phones only */
+@media (max-width: 360px) {
+  .machine {
+    width: 280px;
+    padding: 16px;
+  }
+  .keypad {
+    grid-template-columns: repeat(4, 58px);
+    grid-auto-rows: 58px;
+    gap: 8px;
+  }
+  .key {
+    width: 58px;
+    height: 58px;
+    font-size: 17px;
+  }
+  .key-zero {
+    width: 124px;
+  }
+}
