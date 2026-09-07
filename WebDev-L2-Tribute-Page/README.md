@@ -59,7 +59,3 @@ Savitribai Phule's life, including her educational work with Jyotirao Phule,
 her published poetry collections, and her death while treating plague
 patients — all paraphrased into original wording for this page.
 
-## Notes for submission
-- Screenshot the hero section and at least one content section before pushing.
-- Record the demo video per the SIP Task List workflow (2-second title card,
-  then a scroll-through of the full page).
