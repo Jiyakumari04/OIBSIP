@@ -62,13 +62,3 @@ OIBSIP/WebDev-L2-LoginAuth/
 ├── style.css
 ├── auth.js
 ├── README.md
-└── screenshots/   (add your own before pushing)
-```
-
-## Notes for submission
-- Screenshot the register page, login page (including an error state), and
-  the dashboard.
-- Record the demo video per the SIP Task List workflow: 2-second title card,
-  then register a new account, get redirected to login, log in, view the
-  dashboard, log out, and show that visiting `dashboard.html` directly
-  without logging in redirects back to the login page.
