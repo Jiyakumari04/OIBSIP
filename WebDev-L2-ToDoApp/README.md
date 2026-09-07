@@ -47,12 +47,6 @@ OIBSIP/WebDev-L2-ToDoApp/
 ├── style.css
 ├── script.js
 ├── README.md
-└── screenshots/   (add your own before pushing)
+
 ```
 
-## Notes for submission
-
-- Screenshot the app with a mix of pending and completed tasks.
-- Record the demo video per the SIP Task List workflow (2-second title card,
-  then a walkthrough: add a task, edit it, complete it — watch it grow into
-  a fruit — then delete one, and refresh the page to show persistence).
