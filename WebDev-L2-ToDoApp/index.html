@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do Diary 🍓</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- floating decorative fruits -->
+    <div class="fruit-sky" aria-hidden="true">
+      <span
+        class="floaty"
+        style="left: 4%; animation-duration: 9s; animation-delay: 0s"
+        >🍓</span
+      >
+      <span
+        class="floaty"
+        style="left: 15%; animation-duration: 11s; animation-delay: 1.5s"
+        >🍋</span
+      >
+      <span
+        class="floaty"
+        style="left: 28%; animation-duration: 8s; animation-delay: 3s"
+        >🍊</span
+      >
+      <span
+        class="floaty"
+        style="left: 70%; animation-duration: 10s; animation-delay: 0.8s"
+        >🍇</span
+      >
+      <span
+        class="floaty"
+        style="left: 85%; animation-duration: 9.5s; animation-delay: 2.2s"
+        >🥝</span
+      >
+      <span
+        class="floaty"
+        style="left: 92%; animation-duration: 12s; animation-delay: 1s"
+        >🍉</span
+      >
+      <span
+        class="floaty"
+        style="left: 50%; animation-duration: 10.5s; animation-delay: 2.6s"
+        >🍒</span
+      >
+    </div>
+
+    <div class="diary">
+      <!-- washi tape corners -->
+      <span class="tape tape-pink" aria-hidden="true"></span>
+      <span class="tape tape-blue" aria-hidden="true"></span>
+
+      <!-- spiral binding -->
+      <div class="spiral" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span
+        ><span></span><span></span><span></span>
+      </div>
+
+      <header class="diary-header">
+        <h1>My Fruity To-Do Diary <span class="wiggle-emoji">🍓</span></h1>
+        <p class="subtitle">
+          Plant a task as a seed, watch it grow into a fruit when it's done!
+        </p>
+      </header>
+
+      <form id="addForm" class="add-row" autocomplete="off">
+        <span class="input-fruit" aria-hidden="true">🌱</span>
+        <input
+          type="text"
+          id="taskInput"
+          placeholder="What are we growing today?"
+          maxlength="80"
+          required
+        />
+        <button type="submit" class="btn-add">
+          <span>Plant it</span> <span aria-hidden="true">🍒</span>
+        </button>
+      </form>
+
+      <p id="formHint" class="form-hint" role="status" aria-live="polite"></p>
+
+      <main class="lists-wrap">
+        <section class="list-card list-pending">
+          <div class="list-head">
+            <h2>🌱 Pending Tasks</h2>
+            <span class="count-pill" id="pendingCount">0 pending</span>
+          </div>
+          <ul id="pendingList" class="task-list"></ul>
+          <p class="empty-state" id="pendingEmpty">
+            No seeds planted yet! Add a task above to start your fruity garden.
+            🌤️
+          </p>
+        </section>
+
+        <section class="list-card list-done">
+          <div class="list-head">
+            <h2>🍉 Completed Tasks</h2>
+            <span class="count-pill count-pill-done" id="completedCount"
+              >0 completed</span
+            >
+          </div>
+          <ul id="completedList" class="task-list"></ul>
+          <p class="empty-state" id="completedEmpty">
+            Nothing harvested yet — finish a task and watch it ripen! 🧺
+          </p>
+        </section>
+      </main>
+
+      <footer class="diary-footer">
+        <p>
+          🍇 Tasks are saved in this browser, so your little orchard will be
+          here next time. 🍇
+        </p>
+      </footer>
+    </div>
+
+    <!-- template for a single task item -->
+    <template id="taskTemplate">
+      <li class="task-item">
+        <button
+          class="fruit-toggle"
+          type="button"
+          aria-label="Mark task complete"
+        >
+          <span class="fruit-icon">🌱</span>
+        </button>
+        <div class="task-body">
+          <p class="task-text"></p>
+          <input class="task-edit-input" type="text" maxlength="80" hidden />
+          <p class="task-timestamp"></p>
+        </div>
+        <div class="task-actions">
+          <button
+            class="icon-btn edit-btn"
+            type="button"
+            title="Edit task"
+            aria-label="Edit task"
+          >
+            ✏️
+          </button>
+          <button
+            class="icon-btn save-btn"
+            type="button"
+            title="Save edit"
+            aria-label="Save edit"
+            hidden
+          >
+            💾
+          </button>
+          <button
+            class="icon-btn delete-btn"
+            type="button"
+            title="Delete task"
+            aria-label="Delete task"
+          >
+            🗑️
+          </button>
+        </div>
+      </li>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>

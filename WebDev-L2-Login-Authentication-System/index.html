@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log in</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="auth-shell">
+      <div class="brand-panel">
+        <div class="petal-field" aria-hidden="true">
+          <span
+            class="petal"
+            style="left: 6%; animation-duration: 9s; animation-delay: 0s"
+            >🌸</span
+          >
+          <span
+            class="petal"
+            style="left: 22%; animation-duration: 11s; animation-delay: 2s"
+            >🌷</span
+          >
+          <span
+            class="petal"
+            style="left: 40%; animation-duration: 8s; animation-delay: 4s"
+            >🌼</span
+          >
+          <span
+            class="petal"
+            style="left: 65%; animation-duration: 10s; animation-delay: 1s"
+            >🌺</span
+          >
+          <span
+            class="petal"
+            style="left: 82%; animation-duration: 9.5s; animation-delay: 3s"
+            >🌸</span
+          >
+        </div>
+
+        <div class="brand-mark">Bloom<span>.</span></div>
+
+        <div class="flower-illustration" aria-hidden="true">
+          <div class="stem"></div>
+          <div class="leaf leaf-left"></div>
+          <div class="leaf leaf-right"></div>
+          <div class="bloom">
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="center"></div>
+          </div>
+        </div>
+
+        <div class="brand-tagline">
+          <h2>Welcome back. Your garden's been waiting for you.</h2>
+          <p>Built for the OIBSIP Login Authentication System task.</p>
+        </div>
+      </div>
+
+      <div class="form-panel">
+        <div class="form-card">
+          <h1>Log in</h1>
+          <p class="subtext">
+            New here? <a href="register.html">Create an account</a>
+          </p>
+
+          <div class="form-banner" id="formBanner" role="alert"></div>
+
+          <form id="loginForm" novalidate>
+            <div class="field" id="identifierField">
+              <label for="identifier">Username or email</label>
+              <input
+                type="text"
+                id="identifier"
+                name="identifier"
+                required
+                autocomplete="username"
+              />
+              <p class="field-error" id="identifierError"></p>
+            </div>
+
+            <div class="field" id="passwordField">
+              <label for="password">Password</label>
+              <div class="password-wrap">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  autocomplete="current-password"
+                />
+                <button
+                  type="button"
+                  class="toggle-visibility"
+                  data-target="password"
+                  aria-label="Show password"
+                >
+                  👁️
+                </button>
+              </div>
+              <p class="field-error" id="passwordError"></p>
+            </div>
+
+            <button type="submit" class="btn-primary" id="loginBtn">
+              Log in
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+      (function () {
+        const form = document.getElementById("loginForm");
+        const identifierInput = document.getElementById("identifier");
+        const passwordInput = document.getElementById("password");
+        const banner = document.getElementById("formBanner");
+        const loginBtn = document.getElementById("loginBtn");
+
+        function setBanner(message, type) {
+          banner.textContent = message;
+          banner.className = `form-banner show ${type}`;
+        }
+
+        function clearFieldError(fieldId, errorId) {
+          document.getElementById(fieldId).classList.remove("has-error");
+          document.getElementById(errorId).textContent = "";
+        }
+
+        function setFieldError(fieldId, errorId, message) {
+          document.getElementById(fieldId).classList.add("has-error");
+          document.getElementById(errorId).textContent = message;
+        }
+
+        document.querySelectorAll(".toggle-visibility").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const target = document.getElementById(btn.dataset.target);
+            const isHidden = target.type === "password";
+            target.type = isHidden ? "text" : "password";
+            btn.textContent = isHidden ? "🙈" : "👁️";
+          });
+        });
+
+        // If already logged in, skip straight to the dashboard.
+        if (getSession()) {
+          window.location.href = "dashboard.html";
+        }
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          banner.className = "form-banner";
+          clearFieldError("identifierField", "identifierError");
+          clearFieldError("passwordField", "passwordError");
+
+          const identifier = identifierInput.value.trim();
+          const password = passwordInput.value;
+
+          let hasError = false;
+          if (!identifier) {
+            setFieldError(
+              "identifierField",
+              "identifierError",
+              "Enter your username or email.",
+            );
+            hasError = true;
+          }
+          if (!password) {
+            setFieldError(
+              "passwordField",
+              "passwordError",
+              "Enter your password.",
+            );
+            hasError = true;
+          }
+          if (hasError) return;
+
+          loginBtn.disabled = true;
+          loginBtn.textContent = "Checking…";
+
+          const result = await verifyLogin({ identifier, password });
+
+          if (!result.ok) {
+            setBanner(result.message, "error");
+            loginBtn.disabled = false;
+            loginBtn.textContent = "Log in";
+            return;
+          }
+
+          startSession(result.user.username);
+          setBanner("Welcome back! Redirecting…", "success");
+          setTimeout(() => {
+            window.location.href = "dashboard.html";
+          }, 700);
+        });
+      })();
+    </script>
+  </body>
+</html>

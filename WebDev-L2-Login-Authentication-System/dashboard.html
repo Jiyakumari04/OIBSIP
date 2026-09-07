@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — Bloom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="auth.js"></script>
+    <script>
+      // Route guard: runs immediately, before the page paints, so an
+      // unauthenticated visitor never sees dashboard content flash on screen.
+      if (!getSession()) {
+        window.location.replace("index.html");
+      }
+    </script>
+  </head>
+  <body>
+    <div class="dashboard-shell" id="dashboardShell" style="display: none">
+      <nav class="dashboard-nav">
+        <div class="brand-mark">Bloom<span>.</span></div>
+        <button class="btn-logout" id="logoutBtn">Log out</button>
+      </nav>
+
+      <main class="dashboard-main">
+        <div class="welcome-card">
+          <h1 id="welcomeHeading">Welcome back!</h1>
+          <p class="welcome-sub">
+            🌼 You're seeing this page because you're securely logged in.
+          </p>
+
+          <div class="account-grid">
+            <div class="account-stat">
+              <div class="stat-label">Username</div>
+              <div class="stat-value" id="statUsername">—</div>
+            </div>
+            <div class="account-stat">
+              <div class="stat-label">Email</div>
+              <div class="stat-value" id="statEmail">—</div>
+            </div>
+            <div class="account-stat">
+              <div class="stat-label">Account created</div>
+              <div class="stat-value" id="statCreated">—</div>
+            </div>
+            <div class="account-stat">
+              <div class="stat-label">This session started</div>
+              <div class="stat-value" id="statSession">—</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        const session = getSession();
+        // Guard already redirected in <head> if there's no session, but this
+        // covers the moment between that check and this script running.
+        if (!session) return;
+
+        const user = findUserByIdentifier(session.username);
+        if (!user) {
+          // Session points at a user that no longer exists (e.g. storage was
+          // cleared) — treat as logged out.
+          endSession();
+          window.location.replace("index.html");
+          return;
+        }
+
+        document.getElementById("welcomeHeading").textContent =
+          `Welcome back, ${user.username}!`;
+        document.getElementById("statUsername").textContent = user.username;
+        document.getElementById("statEmail").textContent = user.email;
+        document.getElementById("statCreated").textContent = new Date(
+          user.createdAt,
+        ).toLocaleString();
+        document.getElementById("statSession").textContent = new Date(
+          session.loginAt,
+        ).toLocaleString();
+
+        document.getElementById("dashboardShell").style.display = "block";
+
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+          endSession();
+          window.location.href = "index.html";
+        });
+      })();
+    </script>
+  </body>
+</html>
