@@ -37,7 +37,3 @@ OIBSIP/WebDev-L2-Calculator/
 └── screenshots/   (add your own before pushing)
 ```
 
-## Notes for submission
-- Take screenshots of the calculator mid-calculation and showing the division-by-zero state.
-- Record the demo video per the SIP Task List workflow (2-second title card, then a
-  walkthrough demonstrating chained operations, backspace, clear, and the error state).
